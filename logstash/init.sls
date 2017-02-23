@@ -14,24 +14,24 @@ logstash-pkg:
 # the account. The group needs to be defined as 'adm' in the init script,
 # so we'll do a pattern replace.
 
-{%- if salt['grains.get']('os', None) == "Ubuntu" %}
-change service group in Ubuntu init script:
-  file.replace:
-    - name: /etc/init.d/logstash
-    - pattern: "LS_GROUP=logstash"
-    - repl: "LS_GROUP=adm"
-    - watch_in:
-      - service: logstash-svc
-
-add adm group to logstash service account:
-  user.present:
-    - name: logstash
-    - groups:
-      - logstash
-      - adm
-    - require:
-      - pkg: logstash-pkg
-{%- endif %}
+#{%- if salt['grains.get']('os', None) == "Ubuntu" %}
+#change service group in Ubuntu init script:
+#  file.replace:
+#    - name: /etc/init.d/logstash
+#    - pattern: "LS_GROUP=logstash"
+#    - repl: "LS_GROUP=adm"
+#    - watch_in:
+#      - service: logstash-svc
+#
+#add adm group to logstash service account:
+#  user.present:
+#    - name: logstash
+#    - groups:
+#      - logstash
+#      - adm
+#    - require:
+#      - pkg: logstash-pkg
+#{%- endif %}
 
 {%- if logstash.inputs is defined %}
 logstash-config-inputs:
