@@ -33,6 +33,15 @@ logstash-pkg:
 #      - pkg: logstash-pkg
 #{%- endif %}
 
+# Logtstash is very verbose by default, pass the quiet flag to limit size
+# of logs.
+  file.replace:
+     - name: /etc/init.d/logstash
+     - pattern: 'LS_OPTS=""'
+     - repl: 'LS_OPTS="--quiet"'
+     - watch_in:
+       - service: logstash-svc
+
 {%- if logstash.inputs is defined %}
 logstash-config-inputs:
   file.managed:
